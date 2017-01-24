@@ -1,6 +1,6 @@
 import os
 from collections import OrderedDict, namedtuple
-from xml.etree import ElementTree as ET
+from xml.etree import ElementTree
 from datetime import date
 from dateutil.relativedelta import relativedelta
 from itertools import groupby
@@ -20,7 +20,7 @@ class Calendar(OrderedDict):
         self.configHome = os.path.join(os.path.split(self.codeHome)[0], 'site_config')
         xmlfile = os.path.join(self.configHome, 'Calendar.xml')
         # print(xmlfile)
-        tree = ET.parse(xmlfile)
+        tree = ElementTree.parse(xmlfile)
         root = tree.getroot()
 
         for _entry in root.findall('entry'):
@@ -31,7 +31,7 @@ class Calendar(OrderedDict):
 
         self.start = date(int(self['M01'].year), int(self['M01'].month), 1)
         self.months = list(self.keys())
-        self.monthBook = { month: '{1}-{2}'.format(*self[month]) for month in self}
+        self.monthBook = {month: '{1}-{2}'.format(*self[month]) for month in self}
 
     def getMonth(self, month):
         start = self.start + relativedelta(months=month-1)
@@ -46,21 +46,21 @@ class Calendar(OrderedDict):
     @property
     def currentMonth(self):
         d1, d2 = date.today(), self.start
-        month =  (12 * d1.year + d1.month) - (12 * d2.year + d2.month) + 1
-        monthId = self.months[month - 1]
-        return month, monthId
+        month = (12 * d1.year + d1.month) - (12 * d2.year + d2.month) + 1
+        month_id = self.months[month - 1]
+        return month, month_id
 
     @property
     def nextMonth(self):
         month = self.currentMonth[0] + 1
-        monthId = self.months[month - 1]
-        return month, monthId
+        month_id = self.months[month - 1]
+        return month, month_id
 
     @property
     def prevMonth(self):
         month = self.currentMonth[0] - 1
-        monthId = self.months[month - 1]
-        return month, monthId
+        month_id = self.months[month - 1]
+        return month, month_id
 
     @property
     def timeline(self):
@@ -71,7 +71,7 @@ class Calendar(OrderedDict):
 #        current_month = self.getCurrentMonth()
 #        return [item for item in self if int(item[1:]) > current_month]
 
-#calendar = Calendar()
+# calendar = Calendar()
 
 AgileCalendarEntry = namedtuple('AgileCalendarEntry', 'month, sprint, release')
 
@@ -83,7 +83,7 @@ class AgileCalendar(OrderedDict):
         self.configHome = os.path.join(os.path.split(self.codeHome)[0], 'site_config')
         self.calendar = Calendar()
         xmlfile = os.path.join(self.configHome, 'AgileCalendar.xml')
-        tree = ET.parse(xmlfile)
+        tree = ElementTree.parse(xmlfile)
         root = tree.getroot()
 
         for _sprint in root.findall('sprint'):
@@ -165,10 +165,10 @@ class AgileCalendar(OrderedDict):
 
     @property
     def projectTime(self):
-        monthId = self.calendar.currentMonth[1]
-        entry = self.calendar[monthId]
+        month_id = self.calendar.currentMonth[1]
+        entry = self.calendar[month_id]
         month = Calendar.month_names[entry.month]
-        return '{} - {} {} - Sprint {}'.format(monthId, month, entry.year, self.currentTimeSlots[1])
+        return '{} - {} {} - Sprint {}'.format(month_id, month, entry.year, self.currentTimeSlots[1])
 
 
 if __name__ == "__main__":
