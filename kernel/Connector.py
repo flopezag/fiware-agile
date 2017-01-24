@@ -1,18 +1,20 @@
-__author__ = "Manuel Escriche <mev@tid.es>"
-
 import base64, certifi, requests
 from kconfig import settings
+
+__author__ = "Manuel Escriche <mev@tid.es>"
+
 
 class ConnectionToJIRA(Exception):
     pass
 
+
 class Connector:
 
     url_api = {
-        'session':'/rest/auth/1/session',
-        'project':'/rest/api/latest/project',
-        'component':'/rest/api/latest/component/',
-        'search':'/rest/api/latest/search',
+        'session': '/rest/auth/1/session',
+        'project': '/rest/api/latest/project',
+        'component': '/rest/api/latest/component/',
+        'search': '/rest/api/latest/search',
         'user': '/rest/api/latest/user'
     }
     instance = None
@@ -37,18 +39,18 @@ class Connector:
         access_key = str(keyword)[2:-1]
         headers = {'Content-Type': 'application/json', "Authorization": "Basic {}".format(access_key)}
         self.root_url = 'https://{}'.format(settings.server['JIRA'].domain)
-        #print(self.root_url)
+        # print(self.root_url)
         self.session = requests.session()
 
-        #url = '{}{}'.format(self.root_url, Connector.url_api['session'])
-        answer =  self.session.get(self.root_url, headers = headers, verify=Connector.verify)
+        # url = '{}{}'.format(self.root_url, Connector.url_api['session'])
+        answer = self.session.get(self.root_url, headers = headers, verify=Connector.verify)
         if answer.status_code != requests.codes.ok:
             raise ConnectionToJIRA
 
         self.session.headers.update({'Content-Type': 'application/json'})
 
     def component(self, cmp_id):
-        #print('component')
+        # print('component')
         url = '{}{}{}'.format(self.root_url, Connector.url_api['component'], cmp_id)
         try:
             answer = self.session.get(url, verify=Connector.verify)
@@ -73,7 +75,7 @@ class Connector:
         return data['realAssignee']['displayName']
 
     def tracker(self, tracker_id):
-        #print('tracker')
+        # print('tracker')
         url = '{}{}{}'.format(self.root_url, Connector.url_api['project'], tracker_id)
         try:
             answer = self.session.get(url, verify=Connector.verify)
@@ -83,7 +85,7 @@ class Connector:
                 answer = self.session.get(url, verify=Connector.verify)
             except Exception:
                 raise ConnectionToJIRA
-        #print(answer.url)
+        # print(answer.url)
         data = answer.json()
         return data
 
@@ -103,7 +105,7 @@ class Connector:
     def search(self, params):
         #print('search')
         url = '{}{}'.format(self.root_url, Connector.url_api['search'])
-        #print(url)
+        # print(url)
         try:
             answer = self.session.get(url, params=params, verify=Connector.verify)
         except Exception:
@@ -112,20 +114,20 @@ class Connector:
                 answer = self.session.get(url, params=params, verify=Connector.verify)
             except Exception:
                 raise ConnectionToJIRA
-        #print(answer.url)
+        # print(answer.url)
         data = answer.json()
         return data
 
     def displayName(self, username):
         url = '{}{}'.format(self.root_url, Connector.url_api['user'])
-        params = {'username': username }
+        params = {'username': username}
         for n in range(0,1):
             try:
                 answer = self.session.get(url, params=params, verify=Connector.verify)
             except Exception:
                 if n: raise ConnectionToJIRA
             else: break
-        #print(answer.url)
+        # print(answer.url)
         data = answer.json()
         return data['displayName']
 
@@ -135,10 +137,10 @@ class JIRA:
              'resolution,assignee,created,updated,duedate,resolutiondate,fixVersions,releaseDate,issuelinks'
     verify = False
     url_api = {
-        'session':'/rest/auth/1/session',
-        'project':'/rest/api/2/project',
-        'component':'/rest/api/2/component/',
-        'search':'/rest/api/2/search'
+        'session': '/rest/auth/1/session',
+        'project': '/rest/api/2/project',
+        'component': '/rest/api/2/component/',
+        'search': '/rest/api/2/search'
     }
 
     def __init__(self):
@@ -149,14 +151,13 @@ class JIRA:
         access_key = str(keyword)[2:-1]
         headers = {'Content-Type': 'application/json', "Authorization": "Basic {}".format(access_key)}
         self.root_url = 'https://{}'.format(settings.server['JIRA'].domain)
-        #print(self.root_url)
+        # print(self.root_url)
         self.session = requests.session()
 
-        #url = '{}{}'.format(self.root_url, JIRA.url_api['session'])
-        answer =  self.session.get(self.root_url, headers = headers, verify=JIRA.verify)
+        # url = '{}{}'.format(self.root_url, JIRA.url_api['session'])
+        answer = self.session.get(self.root_url, headers=headers, verify=JIRA.verify)
         if answer.status_code != requests.codes.ok:
             raise ConnectionToJIRA
-
 
         self.session.headers.update({'Content-Type': 'application/json'})
 
@@ -172,9 +173,9 @@ class JIRA:
 
     def getComponentData(self, comp_id):
         startAt = 0
-        payload = {'fields':JIRA.fields,
-                   'maxResults':1000, 'startAt':startAt,
-                   'jql':'component={}'.format(comp_id) }
+        payload = {'fields': JIRA.fields,
+                   'maxResults': 1000, 'startAt': startAt,
+                   'jql': 'component={}'.format(comp_id)}
         try:
             data = self.search(payload)
         except Exception:
@@ -191,9 +192,9 @@ class JIRA:
 
     def getTrackerData(self, tracker_id):
         startAt = 0
-        payload = {'fields':JIRA.fields,
-                   'maxResults':1000, 'startAt':startAt,
-                   'jql':'project={}'.format(tracker_id) }
+        payload = {'fields': JIRA.fields,
+                   'maxResults': 1000, 'startAt': startAt,
+                   'jql': 'project={}'.format(tracker_id)}
         try:
             data = self.search(payload)
         except Exception:

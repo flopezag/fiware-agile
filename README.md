@@ -1,4 +1,4 @@
-#<a name="top"></a># FIWARE Agile scripts
+#<a name="top"></a>FIWARE Agile scripts
 [![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Scripts to generate automatically the sprint closing, sprint planning and retrospective tickets.
