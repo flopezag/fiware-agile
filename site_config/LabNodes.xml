@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- List of available FIWARE Lab nodes and their
+     status and the components that we have   -->
+<data>
+    <component name="component name">
+        <tracker_key>tracker key</tracker_key>
+        <cmp_key>code key</cmp_key>
+        <owner>owner</owner>
+        <backlog_keyword>backlog keyword</backlog_keyword>
+    </component>
+
+    ...
+
+    <!--  nodes  -->
+    <node name="FIWARE Lab node name">
+        <tracker_key>tracker name</tracker_key>
+        <cmp_key>tracker code in Jira</cmp_key>
+        <owner>owner</owner>
+        <backlog_keyword>backlog keyword</backlog_keyword>
+        <mode>status of the node</mode>
+    </node>
+
+    ...
+
+</data>

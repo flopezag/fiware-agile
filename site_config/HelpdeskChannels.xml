@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<data>
+    <!-- List of different channel that we have in JIRA-->
+    <channel name="Channel name">
+        <cmp_name>Channel name</cmp_name>
+        <tracker_key>Key of the channel</tracker_key>
+        <cmp_key>Number key of the channel in Jira</cmp_key>
+        <inbox>email list of the channel</inbox>
+    </channel>
+
+    ...
+
+</data>

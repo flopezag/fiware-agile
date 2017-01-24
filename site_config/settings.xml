@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- List of servers used by the scripts -->
+<data>
+    <domain>domain of the forge</domain>
+
+    <dashboard>
+        <deliverable>No</deliverable>
+    </dashboard>
+
+    <server name='server name'>
+        <domain>domain name</domain>
+        <username>user</username>
+        <password>password</password>
+    </server>
+
+    ...
+
+</data>

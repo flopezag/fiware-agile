@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!-- List of Tools used and developed in FIWARE -->
+<data>
+    <tool name="tool name" chapter="name of the chapter">
+        <tracker_key>tracker key</tracker_key>
+        <cmp_key>tracker key code</cmp_key>
+        <owner>owner</owner>
+        <type>type of the tool</type>
+        <mode>Development|Support</mode>
+        <backlog_keyword>backlog keyword</backlog_keyword>
+        <dissemination>Private|Public</dissemination>
+    </tool>
+
+    ...
+
+</data>
