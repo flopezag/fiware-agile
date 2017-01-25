@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- List of coaching group, mainly assocaited to accelerator projects. -->
+<data>
+     <!-- Coaching -->
+    <group name="group name" group="Coaching">
+        <tracker_key>tracker key</tracker_key>
+        <cmp_key>tracker key code</cmp_key>
+        <owner>Company - owner name</owner>
+        <backlog_keyword>backlog keyword</backlog_keyword>
+        <mode>status</mode>
+    </group>
+
+    ...
+
+</data>

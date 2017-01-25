@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- List of trackers in FIWARE -->
+<data>
+    <tracker name="tracker name" type="CHAPTER">
+        <keystone>APP</keystone>
+        <leader>Company - leader name</leader>
+        <architect>Company - architect name</architect>
+        <name>complete name of the chapter</name>
+        <inbox>email list</inbox>
+    </tracker>
+
+    ...
+
+</data>

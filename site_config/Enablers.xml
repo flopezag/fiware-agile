@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<data>
+    <!-- List of GE per chapter that we have in Jira -->
+
+    <!-- NAME CHAPTER -->
+    <enabler name="GE name" chapter="chapter name">
+        <tracker_key>chapter key</tracker_key>
+        <cmp_key>chapter code</cmp_key>
+        <owner>owner</owner>
+        <type>type of GE</type>
+        <mode>Status: active/deprecated</mode>
+        <backlog_keyword>backlog keyword</backlog_keyword>
+        <bundle_keyword>bundle keyword</bundle_keyword>
+        <package_keyword>package keyword</package_keyword>
+        <GE>GE name</GE>
+        <GEi>GEi name</GEi>
+    </enabler>
+
+    ...
+
+</data>

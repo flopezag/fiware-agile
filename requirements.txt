@@ -1,0 +1,6 @@
+# Project executed with Python3.6
+# Therefore virtualenv -p python3.6 env
+
+jira==1.0.3
+python-dateutil==2.5.3
+certifi==2016.9.26

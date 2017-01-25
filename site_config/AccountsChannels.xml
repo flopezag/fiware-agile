@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- List of Accelerator projects -->
+<data>
+    <channel name="Accelerator name">
+        <tracker_key>tracker key</tracker_key>
+        <cmp_key>code</cmp_key>
+    </channel>
+
+    ...
+
+</data>

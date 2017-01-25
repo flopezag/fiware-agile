@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!-- List of coordination components -->
+<data>
+    <coordinator name="name of coordination" tracker="tracker name">
+        <cmp_key>tracker code</cmp_key>
+        <tracker_key>tracker key name</tracker_key>
+        <owner>partner key owner</owner>
+        <backlog_keyword>blacklog keyword</backlog_keyword>
+    </coordinator>
+
+    ...
+
+</data>
