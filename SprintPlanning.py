@@ -301,4 +301,8 @@ if __name__ == "__main__":
         menu = '\nMenu:\n\t0: print\n\t1: deploy \n\t2: monitor \n\t3: search \n\t4: clean \n\tE: Exit'
         choice = input(menu + '\nEnter your choice[0-4,(E)xit] : ')
         print('Chosen option:', choice)
-        options[choice]()
+
+        if choice in ('0', '1', '2', '3', '4', 'E'):
+            options[choice]()
+        else:
+            print('\n\n\nWrong option, please try again... ')
