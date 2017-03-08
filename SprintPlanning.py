@@ -44,7 +44,7 @@ class SourceIssue(IssueDefinition):
                 '# Schedule and attend sprint planning meetings for all tech chapters\n' + \
                 '# Take backlog snapshot for ' + self.fixVersion + '\n' + \
                 '# Share sprint planning outcome with project partners \n' + \
-                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00h {color}\n'
+                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00h {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.Coordination.Agile.Sprint-{}.{}'.format(self._sprint, self.action)
@@ -67,7 +67,7 @@ class ChapterIssue(IssueDefinition):
                 '# Organise and hold sprint planning meeting for the chapter before deadline\n' +\
                 "# Update your chapter coordination backlog properly\n" +\
                 "# Verify all GEs are properly planned for the sprint\n" +\
-                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.{}.Coordination.Agile.Sprint-{}.{}'.format(self.chapter, self._sprint, self.action)
@@ -98,7 +98,7 @@ class EnablerIssue(IssueDefinition):
                     '#* My Training (Academy)\n' +\
                     '#* My Contribution to Deliverables\n' +\
                     '#* Others?\n' +\
-                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.{}.{}.Agile.Sprint-{}.{}'\
@@ -121,7 +121,7 @@ class WorkGroupIssue(IssueDefinition):
                 '# If needed, organise and hold sprint planning meeting for the workgroup before deadline\n' +\
                 "# Update your work group coordination backlog properly\n" +\
                 "# Verify all components are properly planned for the sprint\n" +\
-                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.{}.Coordination.Agile.Sprint-{}.{}'.format(self.workgroup, self._sprint, self.action)
@@ -146,7 +146,7 @@ class GroupIssue(IssueDefinition):
                     'Topics:\n' +\
                     '#* My Contribution to Deliverables\n' +\
                     '#* Others?\n' +\
-                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.{}.{}.Agile.Sprint-{}.{}'\
@@ -170,7 +170,7 @@ class QualityAssuranceIssue(IssueDefinition):
                 '#* My Contribution to Deliverables\n' +\
                 '#* Test reports\n' +\
                 '#* Others?\n' +\
-                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00h {color}\n'
+                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00h {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.QualityAssurance.Agile.Sprint-{}.{}'.format(self._sprint, self.action)
@@ -192,7 +192,7 @@ class LabIssue(IssueDefinition):
                 '# Organise and hold sprint planning meeting for the chapter before deadline\n' +\
                 "# Update your chapter coordination backlog properly\n" +\
                 "# Verify all Nodes are properly planned for the sprint\n" +\
-                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.Lab.Coordination.Agile.Sprint-{}.{}'.format(self._sprint, self.action)
@@ -213,7 +213,7 @@ class NodeIssue(IssueDefinition):
         return '+Activities requested to {color:red}Plan{color} {color:blue}*' + self.fixVersion + '*{color}+\n' +\
                     '# Check your sprint planning issue is available and update its status as you progress\n' +\
                     '# Create and/or schedule foreseen backlog issues for the sprint\n' +\
-                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 18:00 {color}\n'
+                    '\n{color: red}Deadline = ' + self.deadline.strftime('%d-%m-%Y') + ' at 17:00 {color}\n'
 
     def summary(self):
         return 'FIWARE.WorkItem.Lab.{}.Agile.Sprint-{}.{}'.format(self.node.backlogKeyword, self._sprint, self.action)
@@ -224,7 +224,7 @@ class SprintPlanning:
         action = 'Planning'
         # sprint = agileCalendar.next_sprint
         sprint = agileCalendar.current_sprint
-        deadline = datetime.strptime('2016-12-09', '%Y-%m-%d').date()
+        deadline = datetime.strptime('2017-02-10', '%Y-%m-%d').date()
         self.issues = []
         self.root = SourceIssue(action, sprint, deadline)
         self.issues.append(self.root)
@@ -301,4 +301,8 @@ if __name__ == "__main__":
         menu = '\nMenu:\n\t0: print\n\t1: deploy \n\t2: monitor \n\t3: search \n\t4: clean \n\tE: Exit'
         choice = input(menu + '\nEnter your choice[0-4,(E)xit] : ')
         print('Chosen option:', choice)
-        options[choice]()
+
+        if choice in ('0', '1', '2', '3', '4', 'E'):
+            options[choice]()
+        else:
+            print('\n\n\nWrong option, please try again... ')
