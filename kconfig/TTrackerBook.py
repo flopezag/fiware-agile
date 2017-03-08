@@ -53,7 +53,7 @@ class Chapter(Tracker):
 class HelpDesk(Tracker):
     def __init__(self, tracker):
         super().__init__(tracker)
-        tagsList = [child.tag for child in tracker]
+        # tagsList = [child.tag for child in tracker]
         self.channels = OrderedDict((name, helpdeskCompBookByName[name])
                                     for name in helpdeskCompBookByName
                                     if helpdeskCompBookByName[name].tracker == self.keystone)
@@ -62,7 +62,7 @@ class HelpDesk(Tracker):
 class AccountsDesk(Tracker):
     def __init__(self, tracker):
         super().__init__(tracker)
-        tagsList = [child.tag for child in tracker]
+        # tagsList = [child.tag for child in tracker]
 
         self.channels = OrderedDict((name, accountsDeskBookByName[name])
                                     for name in accountsDeskBookByName
@@ -72,7 +72,7 @@ class AccountsDesk(Tracker):
 class WorkGroup(Tracker):
     def __init__(self, tracker):
         super().__init__(tracker)
-        tagsList = [child.tag for child in tracker]
+        # tagsList = [child.tag for child in tracker]
         self.groups = OrderedDict((name, workingGroupsBookByName[name])
                                   for name in workingGroupsBookByName
                                   if workingGroupsBookByName[name].tracker == self.keystone)
@@ -86,7 +86,7 @@ class WorkGroup(Tracker):
 class Lab(Tracker):
     def __init__(self, tracker):
         super().__init__(tracker)
-        tagsList = [child.tag for child in tracker]
+        # tagsList = [child.tag for child in tracker]
 
         self.comps = OrderedDict((name, labCompBook[name])
                                  for name in labCompBook if labCompBook[name].tracker == self.keystone)
@@ -103,12 +103,12 @@ class Lab(Tracker):
 class Management(Tracker):
     def __init__(self, tracker):
         super().__init__(tracker)
-        tagsList = [child.tag for child in tracker]
+        # tagsList = [child.tag for child in tracker]
 
 
 class TrackerBook:
     _typeDict = {'CHAPTER': Chapter, 'MNG': Management, 'WG': WorkGroup,
-                 'HDESK':HelpDesk, 'ADESK':AccountsDesk, 'LAB':Lab}
+                 'HDESK': HelpDesk, 'ADESK': AccountsDesk, 'LAB': Lab}
     _singlenton = None
 
     def __new__(cls, *args, **kwargs):
@@ -126,15 +126,19 @@ class TrackerBook:
         self.trackersByKey = OrderedDict()
         for _tracker in root.findall('tracker'):
             keystone = _tracker.find('keystone').text
-            trackerType = _tracker.get('type')
-            self.trackersByKey[keystone] = TrackerBook._typeDict[trackerType](_tracker)
+            tracker_type = _tracker.get('type')
+            self.trackersByKey[keystone] = TrackerBook._typeDict[tracker_type](_tracker)
 
         self.trackersByName = OrderedDict((self.trackersByKey[item].name, self.trackersByKey[item])
                                           for item in self.trackersByKey)
 
     def __getitem__(self, item):
-        if item in self.trackersByKey: return self.trackersByKey[item]
-        if item in self.trackersByName: return self.trackersByName[item]
+        if item in self.trackersByKey:
+            return self.trackersByKey[item]
+
+        if item in self.trackersByName:
+            return self.trackersByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -158,8 +162,12 @@ class ChapterBook:
                                           for item in trackers_book if type(trackers_book[item]) == Chapter)
 
     def __getitem__(self, item):
-        if item in self.chaptersByKey: return self.chaptersByKey[item]
-        if item in self.chaptersByName: return self.chaptersByName[item]
+        if item in self.chaptersByKey:
+            return self.chaptersByKey[item]
+
+        if item in self.chaptersByName:
+            return self.chaptersByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -182,16 +190,20 @@ class WorkGroupBook:
         return cls._singlenton
 
     def __init__(self):
-        trackersBook = TrackerBook()
-        self.workingGroupByKey = OrderedDict((trackersBook[item].keystone, trackersBook[item])
-                                             for item in trackersBook if type(trackersBook[item]) == WorkGroup)
+        trackers_book = TrackerBook()
+        self.workingGroupByKey = OrderedDict((trackers_book[item].keystone, trackers_book[item])
+                                             for item in trackers_book if type(trackers_book[item]) == WorkGroup)
 
-        self.workingGroupByName = OrderedDict((trackersBook[item].name, trackersBook[item])
-                                              for item in trackersBook if type(trackersBook[item]) == WorkGroup)
+        self.workingGroupByName = OrderedDict((trackers_book[item].name, trackers_book[item])
+                                              for item in trackers_book if type(trackers_book[item]) == WorkGroup)
 
     def __getitem__(self, item):
-        if item in self.workingGroupByKey: return self.workingGroupByKey[item]
-        if item in self.workingGroupByName: return self.workingGroupByName[item]
+        if item in self.workingGroupByKey:
+            return self.workingGroupByKey[item]
+
+        if item in self.workingGroupByName:
+            return self.workingGroupByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -222,8 +234,12 @@ class HelpDeskBook:
                                       for item in trackers_book if type(trackers_book[item]) == HelpDesk)
 
     def __getitem__(self, item):
-        if item in self.deskByKey: return self.deskByKey[item]
-        if item in self.deskByName: return self.deskByName[item]
+        if item in self.deskByKey:
+            return self.deskByKey[item]
+
+        if item in self.deskByName:
+            return self.deskByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -254,8 +270,12 @@ class AccountsDeskBook:
                                       for item in trackers_book if type(trackers_book[item]) == AccountsDesk)
 
     def __getitem__(self, item):
-        if item in self.deskByKey: return self.deskByKey[item]
-        if item in self.deskByName: return self.deskByName[item]
+        if item in self.deskByKey:
+            return self.deskByKey[item]
+
+        if item in self.deskByName:
+            return self.deskByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -286,8 +306,12 @@ class LabBook:
                                       for item in trackers_book if type(trackers_book[item]) == Lab)
 
     def __getitem__(self, item):
-        if item in self.labsByKey: return self.labsByKey[item]
-        if item in self.labsByName: return self.labsByName[item]
+        if item in self.labsByKey:
+            return self.labsByKey[item]
+
+        if item in self.labsByName:
+            return self.labsByName[item]
+
         raise KeyError
 
     def __iter__(self):
@@ -299,7 +323,6 @@ class LabBook:
 
     def __len__(self):
         return len(self.labsByKey)
-
 
 
 # trackersBook = TrackerBook()

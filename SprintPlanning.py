@@ -6,6 +6,8 @@ from kernel.BacklogDeployer import BacklogDeployer
 
 __author__ = "Manuel Escriche <mev@tid.es>"
 
+__version__ = '1.0.0'
+
 
 class IssueDefinition:
     def __init__(self, action, sprint, deadline):
@@ -224,7 +226,7 @@ class SprintPlanning:
         action = 'Planning'
         # sprint = agileCalendar.next_sprint
         sprint = agileCalendar.current_sprint
-        deadline = datetime.strptime('2017-02-10', '%Y-%m-%d').date()
+        deadline = datetime.strptime('2017-03-10', '%Y-%m-%d').date()
         self.issues = []
         self.root = SourceIssue(action, sprint, deadline)
         self.issues.append(self.root)
