@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+<!-- List of sprints by Id and Month -->
+<!-- see http://forge.fiware.org/plugins/mediawiki/wiki/fiware/index.php/Releases_and_Sprints_numbering,_with_mapping_to_calendar_dates -->
+<!-- for more details.               -->
 <data>
     <sprint id="4.1.1" month="M02"/>
     <sprint id="4.1.2" month="M03"/>
