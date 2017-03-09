@@ -1,5 +1,4 @@
 <?xml version="1.0"?>
-<!-- Calendar day for each Month -->
 <data>
     <entry id="M01" month="09" year="2014"/>
     <entry id="M02" month="10" year="2014"/>
@@ -32,4 +31,24 @@
     <entry id="M29" month="01" year="2017"/>
     <entry id="M30" month="02" year="2017"/>
     <entry id="M31" month="03" year="2017"/>
+    <entry id="M32" month="04" year="2017"/>
+    <entry id="M33" month="05" year="2017"/>
+    <entry id="M34" month="06" year="2017"/>
+    <entry id="M35" month="07" year="2017"/>
+    <entry id="M36" month="08" year="2017"/>
+    <entry id="M37" month="09" year="2017"/>
+    <entry id="M38" month="10" year="2017"/>
+    <entry id="M39" month="11" year="2017"/>
+    <entry id="M40" month="12" year="2017"/>
+    <entry id="M41" month="01" year="2018"/>
+    <entry id="M42" month="02" year="2018"/>
+    <entry id="M43" month="03" year="2018"/>
+    <entry id="M44" month="04" year="2018"/>
+    <entry id="M45" month="05" year="2018"/>
+    <entry id="M46" month="06" year="2018"/>
+    <entry id="M47" month="07" year="2018"/>
+    <entry id="M48" month="08" year="2018"/>
+    <entry id="M49" month="09" year="2018"/>
+    <entry id="M50" month="10" year="2018"/>
+    <entry id="M51" month="11" year="2018"/>
 </data>
