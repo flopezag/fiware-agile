@@ -8,7 +8,7 @@ from kernel.BacklogDeployer import BacklogDeployer
 
 __author__ = 'Manuel Escriche'
 
-__version__ = '1.1.0'
+__version__ = '1.2.0'
 
 retrospective_pattern = '# Retrospective Pattern:\n' +\
                 '#* {color:blue}What went well{color}\n' \
