@@ -34,7 +34,7 @@ class Calendar(OrderedDict):
         self.monthBook = {month: '{1}-{2}'.format(*self[month]) for month in self}
 
     def getMonth(self, month):
-        start = self.start + relativedelta(months=month-1)
+        start = self.start + relativedelta(months=month - 1)
         end = start + relativedelta(day=31)
         return start, end
 
@@ -155,7 +155,8 @@ class AgileCalendar(OrderedDict):
             if sprint == self[entry].sprint:
                 prev_month = 'M{}'.format(int(self[entry].month[1:]) - 1)
                 return self[prev_month].sprint
-        else: raise ValueError
+        else:
+            raise ValueError
 
     def isValidSprint(self, timeSlot):
         return True if timeSlot in self.Sprints else False
