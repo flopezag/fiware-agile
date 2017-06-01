@@ -1,4 +1,5 @@
-import base64, certifi, requests
+import base64
+import requests
 from kconfig import settings
 
 __author__ = 'Manuel Escriche'

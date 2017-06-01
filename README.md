@@ -1,10 +1,10 @@
-#<a name="top"></a>FIWARE Agile scripts
+# <a name="top"></a>FIWARE Agile scripts
 [![License badge](https://img.shields.io/badge/license-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Scripts to generate automatically the sprint closing, sprint planning and retrospective tickets.
 
 These scripts were developed in order to facilitate the SCRUM MASTER tasks in Jira. The 
-purpose is to generate automatically the hierarchy of jira tickets per each chapter and per each 
+purpose is to generate automatically the hierarchy of Jira tickets per each chapter and per each 
 generic enabler.
 
 These scripts were originally develop by Manuel Escriche from Telefónica I+D and now 

@@ -1,4 +1,6 @@
-import base64, certifi, requests
+import base64
+import certifi
+import requests
 from kconfig import settings
 
 __author__ = "Manuel Escriche <mev@tid.es>"
@@ -23,7 +25,8 @@ class Connector:
     @classmethod
     def getInstance(cls):
         if cls.instance is None:
-             cls.instance = Connector()
+            cls.instance = Connector()
+
         return cls.instance
 
     def __init__(self):
@@ -35,7 +38,7 @@ class Connector:
         username = settings.server['JIRA'].username
         password = settings.server['JIRA'].password
         auth = '{}:{}'.format(username, password)
-        keyword = base64.b64encode(bytes(auth,'utf-8'))
+        keyword = base64.b64encode(bytes(auth, 'utf-8'))
         access_key = str(keyword)[2:-1]
         headers = {'Content-Type': 'application/json', "Authorization": "Basic {}".format(access_key)}
         self.root_url = 'https://{}'.format(settings.server['JIRA'].domain)
@@ -43,7 +46,7 @@ class Connector:
         self.session = requests.session()
 
         # url = '{}{}'.format(self.root_url, Connector.url_api['session'])
-        answer = self.session.get(self.root_url, headers = headers, verify=Connector.verify)
+        answer = self.session.get(self.root_url, headers=headers, verify=Connector.verify)
         if answer.status_code != requests.codes.ok:
             raise ConnectionToJIRA
 
@@ -103,7 +106,7 @@ class Connector:
         return data['lead']['displayName']
 
     def search(self, params):
-        #print('search')
+        # print('search')
         url = '{}{}'.format(self.root_url, Connector.url_api['search'])
         # print(url)
         try:
@@ -121,15 +124,19 @@ class Connector:
     def displayName(self, username):
         url = '{}{}'.format(self.root_url, Connector.url_api['user'])
         params = {'username': username}
-        for n in range(0,1):
+        for n in range(0, 1):
             try:
                 answer = self.session.get(url, params=params, verify=Connector.verify)
             except Exception:
-                if n: raise ConnectionToJIRA
-            else: break
+                if n:
+                    raise ConnectionToJIRA
+            else:
+                break
+
         # print(answer.url)
         data = answer.json()
         return data['displayName']
+
 
 class JIRA:
     _fields = '*navigable'
@@ -147,7 +154,7 @@ class JIRA:
         username = settings.server['JIRA'].username
         password = settings.server['JIRA'].password
         auth = '{}:{}'.format(username, password)
-        keyword = base64.b64encode(bytes(auth,'utf-8'))
+        keyword = base64.b64encode(bytes(auth, 'utf-8'))
         access_key = str(keyword)[2:-1]
         headers = {'Content-Type': 'application/json', "Authorization": "Basic {}".format(access_key)}
         self.root_url = 'https://{}'.format(settings.server['JIRA'].domain)
@@ -167,7 +174,7 @@ class JIRA:
             answer = self.session.get(url, params=params, verify=JIRA.verify)
         except Exception:
             raise ConnectionToJIRA
-        #print(answer.url)
+        # print(answer.url)
         data = answer.json()
         return data
 
