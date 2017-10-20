@@ -33,32 +33,32 @@ class Calendar(OrderedDict):
         self.months = list(self.keys())
         self.monthBook = {month: '{1}-{2}'.format(*self[month]) for month in self}
 
-    def getMonth(self, month):
+    def get_month(self, month):
         start = self.start + relativedelta(months=month - 1)
         end = start + relativedelta(day=31)
         return start, end
 
     @property
-    def pastMonths(self):
-        month = self.currentMonth[0]
+    def past_months(self):
+        month = self.current_month[0]
         return [item for item in self if int(item[1:]) <= month]
 
     @property
-    def currentMonth(self):
+    def current_month(self):
         d1, d2 = date.today(), self.start
         month = (12 * d1.year + d1.month) - (12 * d2.year + d2.month) + 1
         month_id = self.months[month - 1]
         return month, month_id
 
     @property
-    def nextMonth(self):
-        month = self.currentMonth[0] + 1
+    def next_month(self):
+        month = self.current_month[0] + 1
         month_id = self.months[month - 1]
         return month, month_id
 
     @property
-    def prevMonth(self):
-        month = self.currentMonth[0] - 1
+    def prev_month(self):
+        month = self.current_month[0] - 1
         month_id = self.months[month - 1]
         return month, month_id
 
@@ -99,15 +99,15 @@ class AgileCalendar(OrderedDict):
         self.Releases = ['Release {}'.format(release) for release in self.releases]
 
     @property
-    def currentTimeSlots(self):
-        month = self.calendar.currentMonth[1]
+    def current_timeslots(self):
+        month = self.calendar.current_month[1]
         sprint = [self[month].sprint]
         release = [self[month].release]
         return release + sprint
 
     @property
-    def pastTimeSlots(self):
-        month = self.calendar.currentMonth[1]
+    def past_timeslots(self):
+        month = self.calendar.current_month[1]
         i = self.calendar.months.index(month) - 1
         sprints = [sprint for sprint in self.sprints[:i] if sprint != self.sprints[i]]
         _releases = [release for release in self.releases[:i] if release != self.releases[i]]
@@ -115,8 +115,8 @@ class AgileCalendar(OrderedDict):
         return releases + sprints
 
     @property
-    def futureTimeSlots(self):
-        month = self.calendar.currentMonth[1]
+    def future_timeslots(self):
+        month = self.calendar.current_month[1]
         i = self.calendar.months.index(month) - 1
         sprints = [sprint for sprint in self.sprints[i:] if sprint != self.sprints[i]]
         _releases = [release for release in self.releases[i:] if release != self.releases[i]]
@@ -124,30 +124,30 @@ class AgileCalendar(OrderedDict):
         return releases + sprints
 
     @property
-    def nextSprint(self):
-        _month = self.calendar.currentMonth[1]
+    def next_sprint_from_current_month(self):
+        _month = self.calendar.current_month[1]
         month = self.calendar.months.index(_month) + 1
         return 'Sprint {}'.format(self[month].sprint)
 
     @property
     def next_sprint(self):
-        month = self.calendar.nextMonth[1]
+        month = self.calendar.next_month[1]
         return self[month].sprint
 
     @property
     def current_sprint(self):
-        month = self.calendar.currentMonth[1]
+        month = self.calendar.current_month[1]
         return self[month].sprint
 
     @property
-    def prevSprint(self):
-        _month = self.calendar.currentMonth[1] - 1
+    def prev_sprint_from_current_month(self):
+        _month = self.calendar.current_month[1] - 1
         month = self.calendar.months.index(_month) - 1
         return 'Sprint {}'.format(self[month].sprint)
 
     @property
     def prev_sprint(self):
-        month = self.calendar.prevMonth[1]
+        month = self.calendar.prev_month[1]
         return self[month].sprint
 
     def get_prev_sprint(self, sprint):
@@ -158,18 +158,18 @@ class AgileCalendar(OrderedDict):
         else:
             raise ValueError
 
-    def isValidSprint(self, timeSlot):
+    def is_valid_sprint(self, timeSlot):
         return True if timeSlot in self.Sprints else False
 
-    def isValidRelease(self, timeSlot):
+    def is_valid_release(self, timeSlot):
         return True if timeSlot in self.Releases else False
 
     @property
-    def projectTime(self):
-        month_id = self.calendar.currentMonth[1]
+    def project_time(self):
+        month_id = self.calendar.current_month[1]
         entry = self.calendar[month_id]
         month = Calendar.month_names[entry.month]
-        return '{} - {} {} - Sprint {}'.format(month_id, month, entry.year, self.currentTimeSlots[1])
+        return '{} - {} {} - Sprint {}'.format(month_id, month, entry.year, self.current_timeslots[1])
 
 
 if __name__ == "__main__":

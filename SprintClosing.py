@@ -356,7 +356,7 @@ class SprintClosing:
         sprint = agileCalendar.current_sprint
         deadline = find_release_date(sprint)
 
-        # deadline = datetime.strptime('2016-07-29', '%Y-%m-%d').date()
+        deadline = datetime.strptime('2017-09-29', '%Y-%m-%d').date()
         self.issues = []
         self.root = SourceIssue(action, sprint, deadline)
         self.issues.append(self.root)
@@ -370,18 +370,26 @@ class SprintClosing:
                 continue
 
             chapter = chaptersBook[chapter_name]
-            chapter_issue = ChapterIssue(chapter_name, action, sprint, deadline)
-            chapter_issue.inwards.append(self.root)
-            self.root.outwards.append(chapter_issue)
-            self.issues.append(chapter_issue)
 
-            chapter_retrospective = ChapterRetrospectiveIssue(chapter_name,
-                                                              'Retrospective',
-                                                              sprint,
-                                                              deadline + timedelta(days=5))
+            if chapter_name == 'Ops':
+                chapter_issue = ChapterIssue(chapter_name, action, sprint, deadline)
+                chapter_issue.inwards.append(self.root)
+                self.root.outwards.append(chapter_issue)
+                self.issues.append(chapter_issue)
 
-            self.retrospective_root.outwards.append(chapter_retrospective)
-            self.issues.append(chapter_retrospective)
+                chapter_retrospective = ChapterRetrospectiveIssue(chapter_name,
+                                                                  'Retrospective',
+                                                                  sprint,
+                                                                  deadline + timedelta(days=5))
+
+                self.retrospective_root.outwards.append(chapter_retrospective)
+                self.issues.append(chapter_retrospective)
+
+                temp_issue = chapter_issue
+                temp_retrospective_issue = chapter_retrospective
+            else:
+                temp_issue = self.root
+                temp_retrospective_issue = self.retrospective_root
 
             for enabler_name in chapter.enablers:
                 enabler = chapter.enablers[enabler_name]
@@ -390,10 +398,10 @@ class SprintClosing:
                     continue
 
                 enabler_issue = EnablerIssue(chapter_name, enabler_name, action, sprint, deadline)
-                enabler_issue.inwards.append(chapter_issue)
-                enabler_issue.inwards.append(chapter_retrospective)
-                chapter_issue.outwards.append(enabler_issue)
-                chapter_retrospective.outwards.append(enabler_issue)
+                enabler_issue.inwards.append(temp_issue)
+                enabler_issue.inwards.append(temp_retrospective_issue)
+                temp_issue.outwards.append(enabler_issue)
+                temp_retrospective_issue.outwards.append(enabler_issue)
                 self.issues.append(enabler_issue)
 
         lab_nodes_book = labsBookByName['Lab'].nodes
