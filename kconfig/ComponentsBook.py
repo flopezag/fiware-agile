@@ -70,7 +70,8 @@ class ComponentLeaders(dict):
         try:
             jiraConnector = Connector.getInstance()
             leader = jiraConnector.componentLeader(key)
-        except Exception:
+        except Exception as e:
+            print('Error: Failed.', exc_info=e)
             leader = 'Unknown'
         return leader
 
@@ -110,7 +111,7 @@ class ComponentLeaders(dict):
 
 class Component:
     def __init__(self, comp, leader):
-        tagsList = [child.tag for child in comp]
+        # tagsList = [child.tag for child in comp]
         self.key = comp.find('cmp_key').text
         self.tracker = comp.find('tracker_key').text
         self.name = comp.get('name')
@@ -121,7 +122,8 @@ class Component:
             jiraConnector = Connector.getInstance()
             data = jiraConnector.component(self.key)
             leader = data['realAssignee']['displayName']
-        except Exception:
+        except Exception as e:
+            print('Error: Failed.', exc_info=e)
             leader = 'Unknown'
         return leader
 
@@ -181,7 +183,7 @@ class Channel(Component):
 class AccountChannel(Component):
     def __init__(self, channel, leader):
         super().__init__(channel, leader)
-        tagsList = [child.tag for child in channel]
+        # tagsList = [child.tag for child in channel]
 
 
 class Group(Component):
@@ -226,7 +228,8 @@ class ComponentsBook(OrderedDict):
         self.configHome = os.path.join(os.path.split(codeHome)[0], 'site_config')
         try:
             self.leaders = ComponentLeaders.fromFile()
-        except Exception:
+        except Exception as e:
+            print('Error: Failed loading Component Leaders from file.', e)
             pass
 
         self.add_enablers()
@@ -268,10 +271,13 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('enabler'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in Enablers.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
+
             self[key] = Enabler(item, leader)
 
     def add_tools(self):
@@ -281,10 +287,13 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('tool'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in Tools.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
+
             self[key] = Tool(item, leader)
             # print(self[key])
 
@@ -295,9 +304,11 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('coordinator'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in Coordination.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = Coordinator(item, leader)
@@ -309,9 +320,11 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('channel'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in HelpdeskChannels.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = Channel(item, leader)
@@ -323,9 +336,11 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('channel'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in AccountsChannels.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = AccountChannel(item, leader)
@@ -337,9 +352,11 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('group'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in WorkGroups.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = Group(item, leader)
@@ -351,18 +368,22 @@ class ComponentsBook(OrderedDict):
         root = tree.getroot()
         for item in root.findall('component'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in LabNodes.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = LabComp(item, leader)
 
         for item in root.findall('node'):
             key = item.find('cmp_key').text
+
             try:
                 leader = self.leaders[key] if key in self.leaders else 'Unknown'
-            except Exception:
+            except Exception as e:
+                print('Error: Failed in LabNodes.xml file, key({}): {}'.format(key, e))
                 leader = 'Unknown'
 
             self[key] = LabNode(item, leader)
