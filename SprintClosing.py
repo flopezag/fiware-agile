@@ -385,33 +385,24 @@ class SprintClosing:
                 self.retrospective_root.outwards.append(chapter_retrospective)
                 self.issues.append(chapter_retrospective)
 
-                for enabler_name in chapter.enablers:
-                    enabler = chapter.enablers[enabler_name]
-
-                    if enabler.mode in ('Support', 'Deprecated'):
-                        continue
-
-                    enabler_issue = EnablerIssue(chapter_name, enabler_name, action, sprint, deadline)
-                    enabler_issue.inwards.append(chapter_issue)
-                    enabler_issue.inwards.append(chapter_retrospective)
-                    chapter_issue.outwards.append(enabler_issue)
-                    chapter_retrospective.outwards.append(enabler_issue)
-                    self.root.outwards.append(enabler_issue)
-                    self.retrospective_root.outwards.append(enabler_issue)
-                    self.issues.append(enabler_issue)
+                temp_issue = chapter_issue
+                temp_retrospective_issue = chapter_retrospective
             else:
-                for enabler_name in chapter.enablers:
-                    enabler = chapter.enablers[enabler_name]
+                temp_issue = self.root
+                temp_retrospective_issue = self.retrospective_root
 
-                    if enabler.mode in ('Support', 'Deprecated'):
-                        continue
+            for enabler_name in chapter.enablers:
+                enabler = chapter.enablers[enabler_name]
 
-                    enabler_issue = EnablerIssue(chapter_name, enabler_name, action, sprint, deadline)
-                    enabler_issue.inwards.append(self.root)
-                    enabler_issue.inwards.append(self.retrospective_root)
-                    self.root.outwards.append(enabler_issue)
-                    self.retrospective_root.outwards.append(enabler_issue)
-                    self.issues.append(enabler_issue)
+                if enabler.mode in ('Support', 'Deprecated'):
+                    continue
+
+                enabler_issue = EnablerIssue(chapter_name, enabler_name, action, sprint, deadline)
+                enabler_issue.inwards.append(temp_issue)
+                enabler_issue.inwards.append(temp_retrospective_issue)
+                temp_issue.outwards.append(enabler_issue)
+                temp_retrospective_issue.outwards.append(enabler_issue)
+                self.issues.append(enabler_issue)
 
         lab_nodes_book = labsBookByName['Lab'].nodes
         lab_issue = LabIssue(action, sprint, deadline)

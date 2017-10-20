@@ -226,29 +226,36 @@ class SprintPlanning:
         action = 'Planning'
         # sprint = agileCalendar.next_sprint
         sprint = agileCalendar.current_sprint
-        deadline = datetime.strptime('2017-03-10', '%Y-%m-%d').date()
+        deadline = datetime.strptime('2017-10-23', '%Y-%m-%d').date()
         self.issues = []
         self.root = SourceIssue(action, sprint, deadline)
         self.issues.append(self.root)
 
-        for chaptername in chaptersBook:
-            if chaptername in ('Marketplace', 'InGEIs', 'Catalogue', 'Academy'):
+        for chapter_name in chaptersBook:
+            if chapter_name in ('Marketplace', 'InGEIs', 'Catalogue', 'Academy'):
                 continue
 
-            chapter = chaptersBook[chaptername]
-            chapter_issue = ChapterIssue(chaptername, action, sprint, deadline)
-            chapter_issue.inwards.append(self.root)
-            self.root.outwards.append(chapter_issue)
-            self.issues.append(chapter_issue)
-            for enablername in chapter.enablers:
-                enabler = chapter.enablers[enablername]
+            chapter = chaptersBook[chapter_name]
+
+            if chapter_name == 'Ops':
+                chapter_issue = ChapterIssue(chapter_name, action, sprint, deadline)
+                chapter_issue.inwards.append(self.root)
+                self.root.outwards.append(chapter_issue)
+                self.issues.append(chapter_issue)
+
+                temp_issue = chapter_issue
+            else:
+                temp_issue = self.root
+
+            for enabler_name in chapter.enablers:
+                enabler = chapter.enablers[enabler_name]
 
                 if enabler.mode in ('Support', 'Deprecated'):
                     continue
 
-                enabler_issue = EnablerIssue(chaptername, enablername, action, sprint, deadline)
-                enabler_issue.inwards.append(chapter_issue)
-                chapter_issue.outwards.append(enabler_issue)
+                enabler_issue = EnablerIssue(chapter_name, enabler_name, action, sprint, deadline)
+                enabler_issue.inwards.append(temp_issue)
+                temp_issue.outwards.append(enabler_issue)
                 self.issues.append(enabler_issue)
 
         # for workgroupname in workGroupBook:
@@ -288,6 +295,7 @@ class SprintPlanning:
         # self.qa.inwards.append(self.root)
         # self.root.outwards.append(self.qa)
         # self.issues.append(self.qa)
+
 
 if __name__ == "__main__":
     task = SprintPlanning()
